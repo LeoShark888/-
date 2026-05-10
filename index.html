@@ -46,6 +46,16 @@
     <main>
         <section id="hero" class="hero">
             <div class="hero-bg"></div>
+            <div 
+                class="unicorn-bg" 
+                data-us-project="ci4N3iUQHiEsnFL0xZXm"
+                data-us-scale="1"
+                data-us-dpi="1.5"
+                data-us-lazyload="true"
+                data-us-production="true"
+                data-us-alttext="Privacy Lens abstract gradient background"
+                data-us-arialabel="Decorative animated background for Privacy Lens">
+            </div>
             <div class="container">
                 <div class="hero-wrapper">
                     <div class="hero-content">
@@ -113,8 +123,8 @@
                 </div>
             </div>
             <div class="hero-scroll-hint">
-                <span>向下滚动了解更多</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <span>向下滚动</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
             </div>
@@ -473,6 +483,30 @@
         </div>
     </footer>
 
+    <script type="text/javascript">
+!function(){
+  var u=window.UnicornStudio;
+  if(u&&u.init){
+    if(document.readyState==="loading"){
+      document.addEventListener("DOMContentLoaded",function(){u.init()})
+    }else{
+      u.init()
+    }
+  }else{
+    window.UnicornStudio={isInitialized:false};
+    var i=document.createElement("script");
+    i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.1.12/dist/unicornStudio.umd.js";
+    i.onload=function(){
+      if(document.readyState==="loading"){
+        document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})
+      }else{
+        UnicornStudio.init()
+      }
+    };
+    (document.head||document.body).appendChild(i)
+  }
+}();
+</script>
     <script src="./main.js"></script>
 </body>
 </html>
