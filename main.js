@@ -699,8 +699,30 @@ function initChecklist() {
     initCategoryToggle();
     initItemCheckboxes(savedStates);
     initItemExpand();
+    initClearAllButton();
     updateStats();
     updateSummary();
+}
+
+function initClearAllButton() {
+    const btn = document.getElementById('btnClearAll');
+    if (!btn) return;
+    
+    btn.addEventListener('click', function() {
+        const allItems = document.querySelectorAll('.checklist-item');
+        const checkboxes = document.querySelectorAll('.item-checkbox');
+        
+        allItems.forEach(item => item.classList.remove('checked'));
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+        
+        localStorage.setItem('privacyChecklistStates', JSON.stringify({}));
+        
+        updateStats();
+        updateSummary();
+        
+        const categories = document.querySelectorAll('.category-card');
+        categories.forEach(category => updateCategoryCount(category));
+    });
 }
 
 function getRiskKey(riskLevel) {
@@ -793,27 +815,40 @@ function updateStats() {
 function updateSummary() {
     const summaryEl = document.getElementById('checklistSummary');
     const summaryContent = document.getElementById('summaryContent');
+    if (!summaryEl || !summaryContent) return;
+
     const checkedHighItems = document.querySelectorAll('.checklist-item[data-risk="high"].checked');
-    
+
     if (checkedHighItems.length === 0) {
         summaryEl.classList.add('collapsed');
+        summaryEl.classList.remove('expanded');
+        summaryContent.innerHTML = '<p class="summary-empty">暂无勾选的高关注项目</p>';
         return;
     }
-    
+
     summaryEl.classList.remove('collapsed');
+    summaryEl.classList.add('expanded');
+
     summaryContent.innerHTML = Array.from(checkedHighItems).map(item => {
-        const question = item.querySelector('.item-question').textContent;
-        const scene = item.querySelector('.item-scene').textContent;
+        const questionEl = item.querySelector('.item-question');
+        const sceneEl = item.querySelector('.item-meta .info-tag');
+
+        const question = questionEl ? questionEl.textContent : '';
+        const scene = sceneEl ? sceneEl.textContent : '';
+
         return `<div class="summary-item">
             <div class="summary-question">${question}</div>
             <div class="summary-scene">${scene}</div>
         </div>`;
     }).join('');
-    
-    const summaryHeader = summaryEl.querySelector('.summary-header');
-    summaryHeader.addEventListener('click', function() {
-        summaryEl.classList.toggle('expanded');
-    });
+
+    const summaryHeader = summaryEl.querySelector('.summary-title');
+    if (summaryHeader && !summaryHeader.dataset.bound) {
+        summaryHeader.addEventListener('click', function() {
+            summaryEl.classList.toggle('expanded');
+        });
+        summaryHeader.dataset.bound = 'true';
+    }
 }
 
 function initItemExpand() {
