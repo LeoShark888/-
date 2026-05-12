@@ -2,6 +2,7 @@ let currentTag = 'all';
 let currentRiskLevel = 'all';
 let searchQuery = '';
 let currentPage = 1;
+let currentCaseFilter = 'all';
 
 document.addEventListener('DOMContentLoaded', function() {
     initNavbar();
@@ -611,6 +612,123 @@ const privacyChecklist = [
         userTip: "用户可在 App 中查看最新隐私政策，尤其在版本更新或功能变化后。"
       }
     ]
+  },
+  {
+    id: "social-app-risk",
+    category: "社交 App 专项风险",
+    shortTitle: "它如何处理你的关系、位置和内容？",
+    description: "检查社交 App 在通讯录、好友推荐、个人主页、内容发布、位置展示、互动关系和算法推荐中的隐私风险。",
+    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+    items: [
+      {
+        id: "social-001",
+        question: "是否读取通讯录用于好友推荐、匹配熟人或邀请好友？",
+        riskLevel: "高关注",
+        scene: "通讯录与好友推荐",
+        detail: "社交 App 常通过通讯录匹配用户可能认识的人，用于好友推荐、邀请好友、共同好友识别或“可能认识的人”推荐。",
+        whyItMatters: "通讯录权限不仅涉及用户本人，还涉及通讯录中其他人的手机号、姓名或关系信息，隐私敏感度较高。",
+        userTip: "如果只是浏览内容或使用基础社交功能，可以先拒绝通讯录权限；如已授权，可在系统权限或 App 隐私设置中关闭。"
+      },
+      {
+        id: "social-002",
+        question: "是否允许关闭“把我推荐给可能认识的人”？",
+        riskLevel: "高关注",
+        scene: "熟人推荐",
+        detail: "一些社交 App 会根据手机号、通讯录、共同好友、互动关系等信息，将用户推荐给可能认识的人。",
+        whyItMatters: "熟人推荐可能暴露用户的账号身份、使用痕迹或现实社交关系，尤其在用户不希望被现实熟人发现时风险较高。",
+        userTip: "重点查看隐私设置中是否有“允许通过手机号找到我”“把我推荐给可能认识的人”“通讯录好友推荐”等关闭入口。"
+      },
+      {
+        id: "social-003",
+        question: "是否收集精准位置或粗略位置用于附近的人、同城推荐或地点打卡？",
+        riskLevel: "高关注",
+        scene: "位置与附近功能",
+        detail: "社交 App 可能基于精准位置、粗略位置或 IP 属地提供附近的人、同城内容、地点打卡、附近活动等功能。",
+        whyItMatters: "位置信息可能暴露用户的生活区域、行动轨迹、常去地点和现实身份，尤其是精准位置具有较高隐私风险。",
+        userTip: "只在确实需要使用附近功能、定位发布或地图相关功能时开启位置权限；不使用时建议关闭。"
+      },
+      {
+        id: "social-004",
+        question: "是否说明头像、昵称、地区、简介等个人主页资料的公开范围？",
+        riskLevel: "中关注",
+        scene: "公开资料与个人主页",
+        detail: "社交 App 通常会展示头像、昵称、账号 ID、个人简介、地区、性别、学校、职业等资料，这些信息可能出现在个人主页、评论区、搜索结果或推荐列表中。",
+        whyItMatters: "社交资料越完整，越容易被他人识别现实身份，也可能被搜索、截图、转发或长期留存。",
+        userTip: "填写主页资料时尽量避免暴露真实姓名、具体住址、学校班级、公司部门、联系方式等过于具体的信息。"
+      },
+      {
+        id: "social-005",
+        question: "是否提供内容可见范围设置，例如公开、好友可见、仅自己可见？",
+        riskLevel: "中关注",
+        scene: "内容发布与可见范围",
+        detail: "用户发布的图文、视频、评论、动态、直播回放等内容，可能默认公开展示，也可能被推荐给更多用户。",
+        whyItMatters: "用户主动发布的内容也可能包含个人信息或他人信息，一旦公开传播，后续删除和控制都更困难。",
+        userTip: "发布内容前检查可见范围，涉及个人生活、未成年人、住址、学校、工作单位等信息时，建议设置更小的可见范围。"
+      },
+      {
+        id: "social-006",
+        question: "是否说明点赞、收藏、评论、转发等互动记录是否公开展示？",
+        riskLevel: "中关注",
+        scene: "互动记录",
+        detail: "社交 App 可能展示用户的点赞、收藏、评论、转发、关注等互动行为，也可能将这些行为用于推荐和兴趣判断。",
+        whyItMatters: "互动记录能够反映用户兴趣、关系、观点和行为偏好，在某些场景下可能比用户主动填写的信息更敏感。",
+        userTip: "重点查看点赞列表、收藏列表、关注列表、评论记录是否公开，以及是否可以隐藏或删除。"
+      },
+      {
+        id: "social-007",
+        question: "是否收集关注关系、粉丝关系、好友关系、群组、私信等社交关系信息？",
+        riskLevel: "中关注",
+        scene: "社交关系链",
+        detail: "社交 App 会形成关注、粉丝、好友、群组、私信、共同好友、互动频率等关系网络。",
+        whyItMatters: "社交关系链可以反映用户现实关系、兴趣圈层和亲密程度，可能被用于好友推荐、内容推荐、广告投放或安全风控。",
+        userTip: "重点查看平台是否允许管理关注列表、粉丝可见性、私信权限、黑名单和屏蔽设置。"
+      },
+      {
+        id: "social-008",
+        question: "是否基于浏览、停留、点赞、评论、收藏、关注等行为提取兴趣标签？",
+        riskLevel: "高关注",
+        scene: "兴趣标签与用户画像",
+        detail: "社交 App 通常会根据浏览时长、点赞、评论、收藏、搜索、关注对象、不感兴趣反馈等行为推测用户兴趣，并形成偏好特征。",
+        whyItMatters: "兴趣标签会影响用户看到的内容、广告和推荐结果，也可能持续强化用户的信息环境。",
+        userTip: "重点查看平台是否说明推荐算法使用哪些信息，以及是否提供管理兴趣标签、关闭个性化推荐或清除历史记录的入口。"
+      },
+      {
+        id: "social-009",
+        question: "是否提供关闭个性化推荐或管理推荐内容的入口？",
+        riskLevel: "中关注",
+        scene: "算法推荐控制",
+        detail: "社交 App 的内容流通常高度依赖个性化推荐，平台可能基于用户行为持续调整展示内容。",
+        whyItMatters: "推荐算法会影响用户接触的信息范围和内容排序，用户应当拥有一定的管理和退出机制。",
+        userTip: "查看是否有“不感兴趣”“减少此类推荐”“管理兴趣标签”“关闭个性化推荐”等入口。"
+      },
+      {
+        id: "social-010",
+        question: "是否允许用户删除历史发布内容、评论、搜索记录和浏览记录？",
+        riskLevel: "中关注",
+        scene: "历史记录与删除权",
+        detail: "社交 App 中的历史内容、评论、搜索、浏览记录可能长期保存或展示，用户需要知道是否可以删除或隐藏。",
+        whyItMatters: "社交内容具有传播性和长期性，历史记录可能影响用户声誉、隐私和现实关系。",
+        userTip: "定期清理搜索记录、浏览记录和不再希望展示的历史内容；删除前注意他人转发、截图或缓存可能仍然存在。"
+      },
+      {
+        id: "social-011",
+        question: "是否说明私信、举报、内容审核中的信息处理规则？",
+        riskLevel: "中关注",
+        scene: "私信与内容审核",
+        detail: "社交 App 可能为了安全风控、违规处理、投诉举报和内容审核处理私信记录、举报材料、聊天内容或互动信息。",
+        whyItMatters: "私信通常具有较强私密性，但平台可能在安全、合规或举报场景下进行必要处理。",
+        userTip: "重点查看平台是否说明私信内容的处理目的、触发场景、保存期限，以及是否涉及人工审核或第三方审核服务。"
+      },
+      {
+        id: "social-012",
+        question: "是否说明未成年人在内容发布、私信、推荐和互动场景下的保护规则？",
+        riskLevel: "高关注",
+        scene: "未成年人保护",
+        detail: "社交 App 中未成年人可能参与发布内容、私信互动、直播评论、加入群组或接受算法推荐，因此需要额外保护。",
+        whyItMatters: "未成年人个人信息和社交行为具有更高保护需求，涉及过度曝光、陌生人互动、沉迷推荐和商业营销等风险。",
+        userTip: "家长应关注青少年模式、私信限制、内容推荐限制、公开展示范围和未成年人账号保护规则。"
+      }
+    ]
   }
 ];
 
@@ -700,6 +818,7 @@ function initChecklist() {
     initItemCheckboxes(savedStates);
     initItemExpand();
     initClearAllButton();
+    initReportButtons();
     updateStats();
     updateSummary();
 }
@@ -722,7 +841,155 @@ function initClearAllButton() {
         
         const categories = document.querySelectorAll('.category-card');
         categories.forEach(category => updateCategoryCount(category));
+        
+        // 清除报告
+        const reportPanel = document.getElementById('reportPanel');
+        reportPanel.classList.remove('active');
+        reportPanel.style.display = 'none';
+        document.getElementById('btnCopyReport').style.display = 'none';
     });
+}
+
+function generateChecklistReport() {
+    const checkedItems = document.querySelectorAll('.checklist-item.checked');
+    
+    const reportPanel = document.getElementById('reportPanel');
+    const reportContent = document.getElementById('reportContent');
+    const copyBtn = document.getElementById('btnCopyReport');
+    
+    if (checkedItems.length === 0) {
+        reportContent.textContent = '你还没有勾选任何风险项，请先完成 Checklist 检查。';
+        reportPanel.classList.remove('active');
+        reportPanel.style.display = 'block';
+        copyBtn.style.display = 'none';
+        return;
+    }
+    
+    // 分类收集勾选的项目
+    const highItems = [];
+    const mediumItems = [];
+    const lowItems = [];
+    
+    checkedItems.forEach(item => {
+        const question = item.querySelector('.item-question').textContent.trim();
+        const scene = item.querySelector('.item-meta .info-tag').textContent.trim();
+        const riskEl = item.querySelector('.risk-tag');
+        const riskLevel = riskEl ? riskEl.textContent.trim() : '低关注';
+        
+        const itemData = { question, scene, riskLevel };
+        
+        if (riskLevel === '高关注') {
+            highItems.push(itemData);
+        } else if (riskLevel === '中关注') {
+            mediumItems.push(itemData);
+        } else {
+            lowItems.push(itemData);
+        }
+    });
+    
+    // 生成报告
+    let report = '';
+    
+    // 检查时间
+    const now = new Date();
+    report += `=== 隐私风险检查报告 ===\n\n`;
+    report += `检查时间：${now.toLocaleString('zh-CN')}\n`;
+    report += `检查工具：Privacy Lens\n\n`;
+    
+    // 统计
+    report += `=== 检查统计 ===\n\n`;
+    report += `本次共勾选：${checkedItems.length} 项\n`;
+    report += `高关注：${highItems.length} 项\n`;
+    report += `中关注：${mediumItems.length} 项\n`;
+    report += `低关注：${lowItems.length} 项\n\n`;
+    
+    // 高关注列表
+    if (highItems.length > 0) {
+        report += `=== 高关注项目（共 ${highItems.length} 项） ===\n\n`;
+        highItems.forEach((item, index) => {
+            report += `${index + 1}. ${item.question}\n`;
+            report += `   场景：${item.scene}\n\n`;
+        });
+    }
+    
+    // 中关注列表
+    if (mediumItems.length > 0) {
+        report += `=== 中关注项目（共 ${mediumItems.length} 项） ===\n\n`;
+        mediumItems.forEach((item, index) => {
+            report += `${index + 1}. ${item.question}\n`;
+            report += `   场景：${item.scene}\n\n`;
+        });
+    }
+    
+    // 低关注列表
+    if (lowItems.length > 0) {
+        report += `=== 低关注项目（共 ${lowItems.length} 项） ===\n\n`;
+        lowItems.forEach((item, index) => {
+            report += `${index + 1}. ${item.question}\n`;
+            report += `   场景：${item.scene}\n\n`;
+        });
+    }
+    
+    // 建议重点阅读
+    report += `=== 建议重点阅读 ===\n\n`;
+    report += `根据检查结果，建议重点阅读以下部分的隐私政策：\n`;
+    report += `• 数据收集范围\n`;
+    report += `• 第三方共享与合作\n`;
+    report += `• 个性化推荐与广告\n`;
+    report += `• 用户权利与账户管理\n`;
+    if (highItems.length > 0) {
+        report += `• 特别关注：本次检查中所有标记为"高关注"的相关条款\n`;
+    }
+    report += `\n`;
+    
+    // 免责声明
+    report += `=== 免责声明 ===\n\n`;
+    report += `本报告仅为 Privacy Lens 工具基于用户勾选自动生成的参考内容，不构成正式法律意见。\n`;
+    report += `请结合实际隐私政策文本进行完整阅读和理解。如有疑问，建议咨询专业法律人士。\n`;
+    
+    // 显示报告
+    reportContent.textContent = report;
+    reportPanel.classList.add('active');
+    reportPanel.style.display = 'block';
+    copyBtn.style.display = 'inline-flex';
+    
+    reportPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function copyChecklistReport() {
+    const reportContent = document.getElementById('reportContent').textContent;
+    
+    navigator.clipboard.writeText(reportContent).then(() => {
+        const btn = document.getElementById('btnCopyReport');
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            报告已复制
+        `;
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.classList.remove('copied');
+        }, 2000);
+    }).catch(err => {
+        console.error('复制失败:', err);
+        alert('复制失败，请手动复制');
+    });
+}
+
+function initReportButtons() {
+    const exportBtn = document.getElementById('btnExportReport');
+    const copyBtn = document.getElementById('btnCopyReport');
+    
+    if (exportBtn) {
+        exportBtn.addEventListener('click', generateChecklistReport);
+    }
+    
+    if (copyBtn) {
+        copyBtn.addEventListener('click', copyChecklistReport);
+    }
 }
 
 function getRiskKey(riskLevel) {
@@ -805,11 +1072,18 @@ function updateStats() {
     const highChecked = document.querySelectorAll('.checklist-item[data-risk="high"].checked').length;
     const mediumChecked = document.querySelectorAll('.checklist-item[data-risk="medium"].checked').length;
     const lowChecked = document.querySelectorAll('.checklist-item[data-risk="low"].checked').length;
+    const totalItems = document.querySelectorAll('.checklist-item').length;
     
     document.getElementById('checkedCount').textContent = checkedItems.length;
     document.getElementById('highCount').textContent = highChecked;
     document.getElementById('mediumCount').textContent = mediumChecked;
     document.getElementById('lowCount').textContent = lowChecked;
+    
+    const progressBar = document.getElementById('statsProgressBar');
+    if (progressBar && totalItems > 0) {
+        const progress = (checkedItems.length / totalItems) * 100;
+        progressBar.style.width = progress + '%';
+    }
 }
 
 function updateSummary() {
@@ -820,14 +1094,14 @@ function updateSummary() {
     const checkedHighItems = document.querySelectorAll('.checklist-item[data-risk="high"].checked');
 
     if (checkedHighItems.length === 0) {
+        summaryEl.classList.remove('has-items', 'expanded');
         summaryEl.classList.add('collapsed');
-        summaryEl.classList.remove('expanded');
-        summaryContent.innerHTML = '<p class="summary-empty">暂无勾选的高关注项目</p>';
+        summaryContent.innerHTML = '';
         return;
     }
 
+    summaryEl.classList.add('has-items', 'expanded');
     summaryEl.classList.remove('collapsed');
-    summaryEl.classList.add('expanded');
 
     summaryContent.innerHTML = Array.from(checkedHighItems).map(item => {
         const questionEl = item.querySelector('.item-question');
@@ -1515,6 +1789,72 @@ const privacyDictionary = [
     pddExample: "拼多多说明，对于收集个人信息的目的、方式、范围发生变化等重大变更，会通过站内信或其他适当方式通知用户。",
     industryReference: "淘宝政策中也列举了重大变更情形，例如业务模式重大变化、共享或公开披露对象变化、用户权利行使方式变化等。",
     readingTip: "App 更新后可以重新查看隐私政策，尤其关注数据收集范围、第三方共享、权限调用和用户权利是否变化。"
+  },
+  {
+    id: "contacts-matching",
+    term: "通讯录匹配",
+    tag: "社交 App",
+    riskLevel: "高",
+    plainExplanation: "平台读取用户通讯录后，将通讯录中的手机号或联系人信息与平台账号进行匹配，用于发现好友、邀请好友或推荐可能认识的人。",
+    commonScenarios: ["通讯录好友", "邀请好友", "可能认识的人", "共同好友推荐"],
+    pddExample: "在电商 App 中，通讯录可能用于好友互动或社交拼单；在社交 App 中，通讯录匹配更常用于熟人推荐和关系链建立。",
+    industryReference: "社交平台、内容社区和短视频平台常通过通讯录或手机号匹配帮助用户找到现实熟人。",
+    readingTip: "看到通讯录权限时，要重点看是否上传服务器、是否用于推荐、是否可以关闭匹配和删除已上传通讯录。"
+  },
+  {
+    id: "people-you-may-know",
+    term: "可能认识的人",
+    tag: "社交 App",
+    riskLevel: "高",
+    plainExplanation: "平台根据手机号、通讯录、共同好友、互动关系、位置或账号行为，推测用户可能认识哪些人，并进行好友推荐。",
+    commonScenarios: ["好友推荐", "熟人推荐", "共同好友", "通过手机号找到我"],
+    pddExample: "电商平台中的好友推荐通常与拼单、互动或邀请有关；社交 App 中的“可能认识的人”更直接关系到现实身份暴露。",
+    industryReference: "微信、微博、小红书、抖音等社交或内容平台都可能存在不同形式的熟人推荐或关系推荐。",
+    readingTip: "如果不希望账号被现实熟人发现，应查看是否能关闭手机号搜索、通讯录推荐和“把我推荐给可能认识的人”。"
+  },
+  {
+    id: "social-graph",
+    term: "社交关系链",
+    tag: "社交 App",
+    riskLevel: "高",
+    plainExplanation: "用户在平台上的关注、粉丝、好友、群组、私信、互动频率等关系网络。",
+    commonScenarios: ["关注关系", "粉丝关系", "好友关系", "群组关系", "私信互动"],
+    pddExample: "电商平台也可能有关注店铺、关注用户、拼单关系等轻社交关系；社交 App 的关系链更完整、更敏感。",
+    industryReference: "社交 App 往往基于关系链进行好友推荐、内容分发、广告推荐和安全风控。",
+    readingTip: "阅读隐私政策时，要关注平台是否收集互动关系，并是否说明其用于推荐、广告或风控。"
+  },
+  {
+    id: "visibility-settings",
+    term: "可见范围",
+    tag: "社交 App",
+    riskLevel: "中",
+    plainExplanation: "用户发布的内容、主页资料、点赞收藏、关注列表等信息可以被谁看到，例如公开、好友可见、部分可见或仅自己可见。",
+    commonScenarios: ["公开主页", "朋友圈可见范围", "评论展示", "点赞列表", "收藏列表", "关注列表"],
+    pddExample: "电商平台中的评价、晒单、评论可能公开展示；社交 App 中几乎所有内容和互动都需要关注可见范围。",
+    industryReference: "社交和内容平台通常会提供公开、好友可见、仅自己可见、不给谁看等隐私设置。",
+    readingTip: "发布内容前，先看默认可见范围；涉及个人身份、位置、未成年人或他人信息时，建议缩小可见范围。"
+  },
+  {
+    id: "interest-tags",
+    term: "兴趣标签",
+    tag: "社交 App",
+    riskLevel: "高",
+    plainExplanation: "平台根据用户浏览、停留、点赞、搜索、关注、评论等行为推测出的兴趣偏好，用于内容推荐和广告展示。",
+    commonScenarios: ["内容推荐", "广告投放", "用户画像", "兴趣管理", "不感兴趣反馈"],
+    pddExample: "电商平台可能根据搜索、浏览、收藏、订单提取消费偏好；社交 App 会根据内容互动行为提取兴趣标签。",
+    industryReference: "短视频、内容社区和社交平台通常高度依赖兴趣标签进行个性化推荐。",
+    readingTip: "看到“兴趣偏好”“用户画像”“个性化推荐”等表述时，要看是否提供关闭或管理入口。"
+  },
+  {
+    id: "ip-location",
+    term: "IP 属地",
+    tag: "社交 App",
+    riskLevel: "中",
+    plainExplanation: "平台根据网络 IP 地址推测用户所在地区，并可能在主页、评论或内容发布场景中展示。",
+    commonScenarios: ["评论区 IP 属地", "主页地区展示", "内容发布地区", "同城推荐"],
+    pddExample: "电商平台更多关注收货地址和交易履约位置；社交 App 中 IP 属地常用于公开展示和内容环境治理。",
+    industryReference: "微博、抖音、小红书等内容或社交平台通常会展示用户 IP 属地，用于提升信息透明度和治理虚假身份。",
+    readingTip: "IP 属地通常不是精准地址，但仍可能暴露用户所在地区。重点看是否公开展示、是否可关闭以及展示范围。"
   }
 ];
 
@@ -1776,6 +2116,7 @@ const privacyCases = [
     id: "case-login",
     title: "案例一：注册登录时，平台会识别你是谁",
     subtitle: "手机号、第三方账号、身份核验信息",
+    caseType: "ecommerce",
     riskLevel: "中高关注",
     riskType: "账号识别与身份验证",
     relatedChecklist: ["数据收集范围", "使用目的与必要性", "用户权利与退出机制"],
@@ -1791,6 +2132,7 @@ const privacyCases = [
     id: "case-transaction",
     title: "案例二：下单购物时，交易信息会连接多个主体",
     subtitle: "订单、支付、配送、商家、物流",
+    caseType: "ecommerce",
     riskLevel: "中关注",
     riskType: "交易履约与信息共享",
     relatedChecklist: ["数据收集范围", "第三方共享与委托处理", "跨境传输与数据存储"],
@@ -1806,6 +2148,7 @@ const privacyCases = [
     id: "case-recommendation-ads",
     title: "案例三：浏览和购买记录，可能被用于推荐和广告",
     subtitle: "偏好特征、个性化推荐、商业短信",
+    caseType: "ecommerce",
     riskLevel: "高关注",
     riskType: "用户画像与营销触达",
     relatedChecklist: ["个性化推荐与广告营销", "使用目的与必要性", "用户权利与退出机制"],
@@ -1821,6 +2164,7 @@ const privacyCases = [
     id: "case-permissions",
     title: "案例四：开启系统权限时，App 会接触更敏感的信息",
     subtitle: "位置、相册、通讯录、剪贴板、摄像头、麦克风",
+    caseType: "ecommerce",
     riskLevel: "高关注",
     riskType: "系统权限与敏感信息",
     relatedChecklist: ["数据收集范围", "使用目的与必要性", "用户权利与退出机制"],
@@ -1836,6 +2180,7 @@ const privacyCases = [
     id: "case-third-party-sdk",
     title: "案例五：第三方 SDK 和合作方，可能参与处理你的信息",
     subtitle: "支付机构、商家、物流、广告分析、SDK",
+    caseType: "ecommerce",
     riskLevel: "高关注",
     riskType: "第三方共享与委托处理",
     relatedChecklist: ["第三方共享与委托处理", "个性化推荐与广告营销", "跨境传输与数据存储"],
@@ -1851,6 +2196,7 @@ const privacyCases = [
     id: "case-user-rights",
     title: "案例六：你能不能查、改、删、撤回和注销",
     subtitle: "用户权利与退出机制",
+    caseType: "ecommerce",
     riskLevel: "中关注",
     riskType: "个人信息控制权",
     relatedChecklist: ["用户权利与退出机制", "跨境传输与数据存储", "个性化推荐与广告营销"],
@@ -1861,6 +2207,93 @@ const privacyCases = [
     userShouldCheck: ["是否提供查阅、更正、补充个人信息的路径？", "是否可以清除搜索记录、浏览记录或删除发布内容？", "是否可以导出或复制个人信息？", "是否可以删除个人信息或申请删除？", "是否可以关闭权限、撤回同意、注销账号？", "是否说明响应用户请求的时限和投诉渠道？"],
     userAction: ["定期查看个人信息收集清单。", "清理不需要的搜索记录、浏览记录和公开发布内容。", "关闭不必要的系统权限和个性化推荐。", "不再使用平台时，查看账号注销条件和注销后信息处理方式。", "如权益受损，保存沟通记录并通过客服、隐私邮箱或投诉渠道联系平台。"],
     cardSummary: "隐私政策的最后一步，是看用户有没有真正的退出机制和控制入口。"
+  },
+  {
+    id: "case-xhs-contacts",
+    title: "社交案例一：授权通讯录后，平台可能帮你发现熟人",
+    subtitle: "通讯录好友推荐、手机号匹配、可能认识的人",
+    caseType: "social",
+    riskLevel: "高关注",
+    riskType: "通讯录与熟人推荐",
+    relatedChecklist: ["社交 App 专项风险", "数据收集范围", "用户权利与退出机制"],
+    scenario: "用户在小红书等社交内容社区中使用好友推荐、通讯录好友、邀请好友等功能时，平台可能提示用户开启通讯录权限。授权后，平台可能基于通讯录信息或手机号关系，帮助用户发现通讯录好友、推荐可能认识的人，或支持用户与熟人建立联系。",
+    involvedData: ["通讯录", "手机号", "联系人关系", "可能认识的人", "账号 ID", "好友推荐记录"],
+    keyQuestion: "通讯录信息是否会被用于好友推荐或熟人匹配？用户是否可以拒绝或关闭？",
+    analysis: "通讯录信息不仅涉及用户本人，也涉及通讯录中其他人的姓名、手机号和现实关系。在小红书这类内容社区中，通讯录推荐可以提升熟人发现和社交连接效率，但也可能让用户的账号被现实熟人发现。隐私政策中将通讯录信息作为较敏感的信息处理时，用户应重点关注平台是否说明使用目的、是否仅用于好友推荐、是否允许拒绝授权，以及拒绝后是否仍可使用基础浏览、搜索和内容查看功能。",
+    userShouldCheck: [
+      "是否说明读取通讯录的具体目的？",
+      "是否说明通讯录信息是否用于好友推荐或熟人匹配？",
+      "是否说明拒绝通讯录授权后会影响哪些功能？",
+      "是否允许用户关闭通讯录好友推荐？",
+      "是否允许关闭“通过手机号找到我”或“把我推荐给可能认识的人”？",
+      "是否提供删除或撤回通讯录授权的入口？"
+    ],
+    userAction: [
+      "如果只是浏览笔记、搜索内容或查看推荐，不建议默认开启通讯录权限。",
+      "如已授权，可以在手机系统权限中关闭通讯录访问。",
+      "进入 App 隐私设置，查找通讯录好友、熟人推荐、通过手机号找到我等选项。",
+      "不希望被现实熟人发现时，建议关闭手机号搜索和熟人推荐相关设置。",
+      "再次使用好友推荐功能前，先确认授权范围和可关闭方式。"
+    ],
+    cardSummary: "通讯录推荐能帮你找到熟人，也可能让熟人找到你。"
+  },
+  {
+    id: "case-xhs-location",
+    title: "社交案例二：开启位置后，平台可能向你推荐附近内容",
+    subtitle: "位置信息、附近内容、同城推荐、地点标签",
+    caseType: "social",
+    riskLevel: "高关注",
+    riskType: "位置与内容推荐",
+    relatedChecklist: ["社交 App 专项风险", "数据收集范围", "用户权利与退出机制"],
+    scenario: "用户在小红书等内容社区中浏览同城内容、附近内容、地点打卡、探店笔记或发布带地点标签的内容时，平台可能收集或使用位置信息，用于推荐附近内容、展示同城信息或优化本地生活内容体验。",
+    involvedData: ["精准位置", "粗略位置", "IP 属地", "地点标签", "附近内容", "同城推荐", "发布位置"],
+    keyQuestion: "位置信息是否只用于附近内容推荐？是否会被公开展示或长期保存？",
+    analysis: "与电商平台中的收货地址不同，社交内容社区中的位置信息往往和内容展示、同城推荐、附近内容、地点打卡等场景结合。位置信息可能帮助用户发现本地内容，但也可能暴露用户的生活区域、常去地点或现实活动范围。用户应重点查看平台是否说明收集的是精准位置还是粗略位置，是否用于附近内容推荐，发布内容时是否会展示地点信息，以及用户是否可以关闭位置权限或隐藏位置相关展示。",
+    userShouldCheck: [
+      "是否说明收集精准位置还是粗略位置？",
+      "位置信息是否用于附近内容、同城推荐或地点打卡？",
+      "发布笔记或评论时，是否会默认展示地点标签？",
+      "是否可以关闭定位权限或隐藏位置展示？",
+      "是否说明位置数据的保存期限和使用范围？",
+      "是否说明 IP 属地、同城推荐等信息的展示逻辑？"
+    ],
+    userAction: [
+      "只在需要使用附近内容、同城推荐、地图或地点打卡功能时开启位置权限。",
+      "发布笔记前检查是否自动带有地点标签。",
+      "不希望暴露生活区域时，关闭附近内容、同城推荐或精准定位。",
+      "可以在系统设置中将定位权限改为“使用期间允许”或关闭精准位置。",
+      "定期检查 App 隐私设置中与位置、同城、附近内容相关的选项。"
+    ],
+    cardSummary: "附近内容更方便，但位置也可能暴露你的现实活动范围。"
+  },
+  {
+    id: "case-xhs-recommendation",
+    title: "社交案例三：你的浏览、搜索和收藏会影响你看到的内容",
+    subtitle: "兴趣标签、内容推荐、个性化广告、种草内容",
+    caseType: "social",
+    riskLevel: "高关注",
+    riskType: "算法推荐与兴趣画像",
+    relatedChecklist: ["社交 App 专项风险", "个性化推荐与广告营销", "用户权利与退出机制"],
+    scenario: "用户在小红书中浏览笔记、搜索关键词、停留观看、点赞、收藏、评论、关注博主或点击商品链接时，平台可能根据这些行为判断用户兴趣，并用于推荐更多类似内容、展示个性化广告或优化信息流排序。",
+    involvedData: ["浏览记录", "搜索关键词", "停留时长", "点赞记录", "收藏记录", "评论记录", "关注关系", "兴趣标签", "个性化广告"],
+    keyQuestion: "平台是否说明会基于用户行为进行内容推荐或个性化广告？用户是否可以关闭或管理？",
+    analysis: "小红书的核心使用体验高度依赖内容推荐和兴趣匹配。用户的搜索、浏览、点赞、收藏、评论和关注行为，可能被用于推测兴趣偏好，并持续影响用户看到的笔记、商品、广告和种草内容。个性化推荐可以提升内容相关性，但也可能让用户长期处在由算法塑造的信息环境中。用户应重点查看平台是否说明推荐依据、是否提供个性化广告或推荐管理入口，以及关闭个性化广告后会产生什么效果。",
+    userShouldCheck: [
+      "是否基于浏览、搜索、点赞、收藏、评论、关注等行为进行内容推荐？",
+      "是否说明会提取兴趣标签或偏好特征？",
+      "是否将兴趣偏好用于个性化广告？",
+      "是否提供关闭个性化广告或个性化推荐的入口？",
+      "是否允许清除搜索记录、浏览记录或管理兴趣标签？",
+      "是否提供“不感兴趣”“减少此类推荐”等反馈入口？"
+    ],
+    userAction: [
+      "定期清理搜索记录和浏览记录。",
+      "对不想持续看到的内容使用“不感兴趣”或减少推荐功能。",
+      "进入隐私设置或个性化选项，查看是否可以关闭个性化广告。",
+      "理解关闭个性化广告不等于完全不看广告，而是减少基于个人兴趣的广告展示。",
+      "如果某类内容被反复推荐，可以尝试清理相关互动记录或调整兴趣设置。"
+    ],
+    cardSummary: "你看什么、搜什么、收藏什么，都会影响平台如何理解你的兴趣。"
   }
 ];
 
@@ -1874,11 +2307,35 @@ function getCaseRiskKey(riskLevel) {
     return map[riskLevel] || 'medium';
 }
 
-function initCases() {
+function initCaseFilters() {
+    const filtersContainer = document.getElementById('caseFilters');
+    if (!filtersContainer) return;
+    
+    filtersContainer.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.addEventListener('click', function() {
+            filtersContainer.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentCaseFilter = this.dataset.filter;
+            renderCases();
+        });
+    });
+}
+
+function renderCases() {
     const grid = document.getElementById('casesGrid');
     if (!grid) return;
     
-    grid.innerHTML = privacyCases.map(item => {
+    let filteredCases = privacyCases;
+    
+    if (currentCaseFilter === 'ecommerce') {
+        filteredCases = privacyCases.filter(c => c.caseType === 'ecommerce');
+    } else if (currentCaseFilter === 'social') {
+        filteredCases = privacyCases.filter(c => c.caseType === 'social');
+    } else if (currentCaseFilter === 'high') {
+        filteredCases = privacyCases.filter(c => c.riskLevel === '高关注' || c.riskLevel === '中高关注');
+    }
+    
+    grid.innerHTML = filteredCases.map(item => {
         const riskKey = getCaseRiskKey(item.riskLevel);
         
         return `
@@ -1915,7 +2372,11 @@ function initCases() {
             openCaseModal(caseId);
         });
     });
-    
+}
+
+function initCases() {
+    initCaseFilters();
+    renderCases();
     initCaseModal();
 }
 
